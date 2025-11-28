@@ -39,6 +39,12 @@ jobs:
           tar -zxf texinfo-7.2.tar.gz && cd texinfo-7.2
           ./configure && make -j4
           sudo make install
+      - name: Install GNU Libunistring
+        run: |
+          curl -O https://ftp.gnu.org/gnu/libunistring/libunistring-1.4.1.tar.gz
+          tar -zxf libunistring-1.4.1.tar.gz && cd libunistring-1.4.1
+          ./configure && make -j4
+          sudo make install
       - name: Install GNU Libiconv
         run: |
           curl -O https://ftp.gnu.org/gnu/libiconv/libiconv-1.18.tar.gz
@@ -141,6 +147,7 @@ jobs:
           cd emacs && ./autogen.sh
           CFLAGS='-O3 -static' ./configure --disable-gc-mark-trace    \
                                            --without-all              \
+                                           --with-gmp                 \
                                            --with-gnutls              \
                                            --with-mps                 \
                                            --with-native-image-api    \

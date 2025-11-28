@@ -15,3 +15,15 @@ jobs:
           tar -zxf m4-1.4.20.tar.gz && cd m4-1.4.20
           ./configure && make -j4
           sudo make install
+      - name: Install GNU Autoconf
+        run: |
+          curl -O https://ftp.gnu.org/gnu/autoconf/autoconf-2.72.tar.gz
+          tar -zxf autoconf-2.72.tar.gz && cd autoconf-2.72
+          ./configure && make -j4
+          sudo make install
+      - name: Install GNU Automake
+        run: |
+          curl -O https://ftp.gnu.org/gnu/automake/automake-1.18.tar.gz
+          tar -zxf automake-1.18.tar.gz && cd automake-1.18
+          ./configure && make -j4
+          sudo make install

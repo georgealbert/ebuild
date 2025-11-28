@@ -41,6 +41,7 @@ jobs:
           tar -zxf pkgconf-2.5.1.tar.gz && cd pkgconf-2.5.1
           ./configure && make -j4
           sudo make install
+          sudo ln -s /usr/local/bin/pkgconf /usr/local/bin/pkg-config
       - name: Install GNU Libtool
         run: |
           curl -O https://ftp.gnu.org/gnu/libtool/libtool-2.5.4.tar.gz

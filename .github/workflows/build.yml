@@ -7,29 +7,10 @@ on:
 
 jobs:
   build:
-    runs-on: macos-15-intel
+    runs-on: macos-14-large
     steps:
       - name: Uninstall Homebrew
         run: |
-          # curl -LO https://github.com/LuciusChen/.emacs.d/blob/main/patches/emacs-31/ns-mac-input-source.patch
-          # curl -LO https://github.com/LuciusChen/.emacs.d/blob/main/patches/emacs-31/ns-alpha-background.patch
-          # pwd && ls -ltr
-          # mkdir emacs
-          # git clone -b 'master' --depth 1 https://github.com/emacs-mirror/emacs.git
-          # cd emacs && sed -i '' '/darwin/ s/lncurses/lncursesw/g' configure.ac
-          # pwd && ls -ltr && ls -ltr ..
-          # curl -LO https://github.com/LuciusChen/.emacs.d/blob/main/patches/emacs-31/ns-mac-input-source.patch
-          # curl -LO https://github.com/LuciusChen/.emacs.d/blob/main/patches/emacs-31/ns-alpha-background.patch
-          # pwd && ls -ltr *.patch
-          # file ns-mac-input-source.patch
-          # head ns-mac-input-source.patch
-          # patch -p1 < ./ns-mac-input-source.patch
-          # patch -p1 < ./ns-alpha-background.patch
-
-          # patch -p1 < ../ns-mac-input-source.patch
-          # patch -p1 < ../ns-alpha-background.patch
-
-          # cd ..
           curl -O https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh
           sudo chmod +x uninstall.sh
           sudo env NONINTERACTIVE=1 ./uninstall.sh

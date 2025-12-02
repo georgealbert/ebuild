@@ -48,6 +48,12 @@ jobs:
           tar -zxf libtool-2.5.4.tar.gz && cd libtool-2.5.4
           ./configure --disable-shared && make -j4
           sudo make install
+      - name: Install GNU Libgmp
+        run: |
+          curl -O https://ftp.gnu.org/gnu/gmp/gmp-6.3.0.tar.gz
+          tar -zxf gmp-6.3.0.tar.gz && cd gmp-6.3.0
+          ./configure --disable-shared && make -j4
+          sudo make install
       - name: Install Libnettle
         run: |
           curl -O https://ftp.gnu.org/gnu/nettle/nettle-3.10.2.tar.gz
@@ -95,12 +101,6 @@ jobs:
         run: |
           curl -O https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.9.tar.xz
           tar -Jxf libxml2-2.9.9.tar.xz && cd libxml2-2.9.9
-          ./configure --disable-shared && make -j4
-          sudo make install
-      - name: Install GNU Libgmp
-        run: |
-          curl -O https://ftp.gnu.org/gnu/gmp/gmp-6.3.0.tar.gz
-          tar -zxf gmp-6.3.0.tar.gz && cd gmp-6.3.0
           ./configure --disable-shared && make -j4
           sudo make install
       - name: Install Libidn2

@@ -54,18 +54,6 @@ jobs:
           tar -zxf gmp-6.3.0.tar.gz && cd gmp-6.3.0
           ./configure --disable-shared && make -j4
           sudo make install
-      - name: Install Libnettle
-        run: |
-          curl -O https://ftp.gnu.org/gnu/nettle/nettle-3.10.2.tar.gz
-          tar -zxf nettle-3.10.2.tar.gz && cd nettle-3.10.2
-          ./configure --disable-shared && make -j4
-          sudo make install
-      - name: Install GNU Texinfo
-        run: |
-          curl -O https://ftp.gnu.org/gnu/texinfo/texinfo-7.2.tar.gz
-          tar -zxf texinfo-7.2.tar.gz && cd texinfo-7.2
-          ./configure && make -j4
-          sudo make install
       - name: Install GNU Libiconv
         run: |
           curl -O https://ftp.gnu.org/gnu/libiconv/libiconv-1.18.tar.gz
@@ -109,6 +97,12 @@ jobs:
           tar -zxf libidn2-2.3.8.tar.gz && cd libidn2-2.3.8
           ./configure --disable-shared && make -j4
           sudo make install
+      - name: Install Libnettle
+        run: |
+          curl -O https://ftp.gnu.org/gnu/nettle/nettle-3.10.2.tar.gz
+          tar -zxf nettle-3.10.2.tar.gz && cd nettle-3.10.2
+          ./configure --disable-shared && make -j4
+          sudo make install
       - name: Install GnuTLS
         run: |
           curl -O https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.11.tar.xz
@@ -122,10 +116,16 @@ jobs:
           make -j4
           sudo make install
           sudo find /usr/local/lib -name 'libtree-sitter*.dylib' -delete
-      - name: Install GNU Gzip
+      - name: Install GNU GZip
         run: |
           curl -O https://ftp.gnu.org/gnu/gzip/gzip-1.14.tar.gz
           tar -zxf gzip-1.14.tar.gz && cd gzip-1.14
+          ./configure && make -j4
+          sudo make install
+      - name: Install GNU Texinfo
+        run: |
+          curl -O https://ftp.gnu.org/gnu/texinfo/texinfo-7.2.tar.gz
+          tar -zxf texinfo-7.2.tar.gz && cd texinfo-7.2
           ./configure && make -j4
           sudo make install
       - name: Install Emacs

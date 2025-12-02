@@ -52,7 +52,7 @@ jobs:
         run: |
           curl -O https://ftp.gnu.org/gnu/gmp/gmp-6.3.0.tar.gz
           tar -zxf gmp-6.3.0.tar.gz && cd gmp-6.3.0
-          ./configure CFLAGS="-fPIC" --disable-shared && make -j4
+          ./configure CFLAGS="-fPIC" --disable-assembly --disable-shared && make -j4
           sudo make install
       - name: Install Libnettle
         run: |

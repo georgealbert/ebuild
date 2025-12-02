@@ -134,6 +134,7 @@ jobs:
           curl -LO https://github.com/LuciusChen/.emacs.d/blob/main/patches/emacs-31/ns-alpha-background.patch
           git clone -b 'master' --depth 1 https://github.com/emacs-mirror/emacs.git
           cd emacs && sed -i '' '/darwin/ s/lncurses/lncursesw/g' configure.ac
+          pwd && ls -ltr && ls -ltr ..
           patch -p1 < ../ns-mac-input-source.patch
           patch -p1 < ../ns-alpha-background.patch
           ./autogen.sh && ./configure CFLAGS='-g0 -O2 -flto=thin'      \

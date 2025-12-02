@@ -11,6 +11,12 @@ jobs:
     steps:
       - name: Uninstall Homebrew
         run: |
+          curl -LO https://github.com/LuciusChen/.emacs.d/blob/main/patches/emacs-31/ns-mac-input-source.patch
+          curl -LO https://github.com/LuciusChen/.emacs.d/blob/main/patches/emacs-31/ns-alpha-background.patch
+          mkdir emacs
+          cd emacs
+          pwd && ls -ltr && ls -ltr ..
+          cd ..
           curl -O https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh
           sudo chmod +x uninstall.sh
           sudo env NONINTERACTIVE=1 ./uninstall.sh

@@ -192,7 +192,9 @@ jobs:
 
           cd emacs
           echo 'latest_log<<EOF' >> $GITHUB_ENV
+          git log -10 --oneline --pretty=format:"%h %an(%ad): %s" --date=iso
           git log -10 --oneline --pretty=format:"%h %an(%ad): %s" --date=iso >> $GITHUB_ENV
+          echo $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
 
       - name: Publish Release

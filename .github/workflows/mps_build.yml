@@ -1,4 +1,4 @@
-name: MacOS Intel X86 Build for GNU Emacs with libmps
+name: igc build of MacOS Intel X86 GNU Emacs
 
 on:
   workflow_dispatch:
@@ -165,7 +165,8 @@ jobs:
           emacs_version=$(TZ='Asia/Shanghai' date +'%Y-%m-%d')"."$(git log -1 --pretty=format:"%h")"-"$(Emacs.app/Contents/MacOS/Emacs --version | sed -nE 's/^GNU Emacs ([0-9.]+).*/\1/p')"-igc"
           echo emacs_version=${emacs_version} >> $GITHUB_ENV
 
-          mv Emacs.tar.xz Emacs.${emacs_version}-igc.tar.xz
+          mv Emacs.app Emacs.${emacs_version}.app
+          tar -Jcf Emacs.${emacs_version}.tar.xz Emacs.${emacs_version}.app
 
           # git log --oneline --since="1 week ago" --pretty=format:"%h %an(%ad): %s" --date=iso|head -10
           echo latest_log=$(git log -1 --oneline --pretty=format:"%h %an(%ad): %s" --date=iso) >> $GITHUB_ENV
@@ -178,11 +179,11 @@ jobs:
           draft: false
           prerelease: false
           body: >
-            Static build branch feature/igc for macOS Intel X86 Emacs app.
+            Branch feature/igc static build of macOS Intel X86_64 Emacs app.
 
-
+            ```
             ${{ env.latest_log }}
-
+            ```
 
             Built with
             [Github Workflow #${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})

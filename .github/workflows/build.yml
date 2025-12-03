@@ -188,13 +188,9 @@ jobs:
 
       - name: Generate release note commit info
         run: |
-          # git log --oneline --since="1 week ago" --pretty=format:"%h %an(%ad): %s" --date=iso|head -10
 
           cd emacs
-
-          echo 'latest_log<<EOF' >> $GITHUB_ENV
-          git log -10 --oneline --pretty=format:"%h %an(%ad): %s" --date=iso >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
+          echo latest_log=$(git log -10 --oneline --pretty=format:"%h %an(%ad): %s" --date=iso) >> $GITHUB_ENV
 
       - name: Publish Release
         id: publish_release

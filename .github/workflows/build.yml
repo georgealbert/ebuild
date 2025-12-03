@@ -186,8 +186,11 @@ jobs:
           mv Emacs.app Emacs.${build_version}.app
           tar -Jcf Emacs.${build_version}.tar.xz Emacs.${build_version}.app
 
-          echo 'latest_log<<EOF' >> $GITHUB_ENV
+      - name: Generate release note commit info
+        run: |
           # git log --oneline --since="1 week ago" --pretty=format:"%h %an(%ad): %s" --date=iso|head -10
+
+          echo 'latest_log<<EOF' >> $GITHUB_ENV
           git log -10 --oneline --pretty=format:"%h %an(%ad): %s" --date=iso >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
 

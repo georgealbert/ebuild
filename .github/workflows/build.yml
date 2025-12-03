@@ -1,9 +1,10 @@
-name: MacOS Build for GNU Emacs
+name: master build of MacOS Intel X86 GNU Emacs
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 1 1,16 * *'
+      timezone: 'Asia/Shanghai'
 
 jobs:
   build:
@@ -150,15 +151,41 @@ jobs:
                                       --with-threads                   \
                                       --with-toolkit-scroll-bars       \
                                       --with-tree-sitter               \
+                                      --with-mps                       \
                                       --with-xml2                      \
                                       --with-zlib
           make -j4 && make install
           ditto nextstep/Emacs.app Emacs.app
+
           echo version=$(Emacs.app/Contents/MacOS/Emacs --version | sed -nE 's/^GNU Emacs ([0-9.]+).*/\1/p') >> $GITHUB_ENV
           echo commit_id=$(git log -1 --pretty=format:"%h") >> $GITHUB_ENV
           echo "NOW=$(TZ='Asia/Shanghai' date +'%Y-%m-%d')" >> $GITHUB_ENV
-          tar -Jcf Emacs.tar.xz Emacs.app
-      - uses: actions/upload-artifact@v4
+
+          emacs_version=$(TZ='Asia/Shanghai' date +'%Y-%m-%d')"."$(git log -1 --pretty=format:"%h")"-"$(Emacs.app/Contents/MacOS/Emacs --version | sed -nE 's/^GNU Emacs ([0-9.]+).*/\1/p')"-master"
+          echo emacs_version=${emacs_version} >> $GITHUB_ENV
+
+          mv Emacs.app Emacs.${emacs_version}.app
+          tar -Jcf Emacs.${emacs_version}.tar.xz Emacs.${emacs_version}.app
+
+          # git log --oneline --since="1 week ago" --pretty=format:"%h %an(%ad): %s" --date=iso|head -10
+          echo latest_log=$(git log -10 --oneline --pretty=format:"%h %an(%ad): %s" --date=iso) >> $GITHUB_ENV
+
+      - name: Publish Release
+        id: publish_release
+        uses: softprops/action-gh-release@v2
         with:
-          name: Emacs.${{ env.NOW }}.${{ env.commit_id }}-v${{ env.version }}
-          path: emacs/Emacs.tar.xz
+          tag_name: ${{ env.emacs_version }}
+          draft: false
+          prerelease: false
+          body: >
+            Static build branch master of macOS Intel X86 Emacs app.
+
+            ```
+            ${{ env.latest_log }}
+            ```
+
+            Built with
+            [Github Workflow #${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+
+          files: |
+            emacs/Emacs.${{ env.emacs_version }}.tar.xz

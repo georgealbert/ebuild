@@ -156,9 +156,9 @@ jobs:
           ditto nextstep/Emacs.app Emacs.app
           echo version=$(Emacs.app/Contents/MacOS/Emacs --version | sed -nE 's/^GNU Emacs ([0-9.]+).*/\1/p') >> $GITHUB_ENV
           echo commit_id=$(git log -1 --pretty=format:"%h") >> $GITHUB_ENV
-          echo "NOW=v$(TZ='Asia/Shanghai' date +'%Y-%m-%d')" >> $GITHUB_ENV
+          echo "NOW=$(TZ='Asia/Shanghai' date +'%Y-%m-%d')" >> $GITHUB_ENV
           tar -Jcf Emacs.tar.xz Emacs.app
       - uses: actions/upload-artifact@v4
         with:
-          name: Emacs.${{ env.NOW }}.${{ env.commit_id }}.${{ env.version }}
+          name: Emacs.${{ env.NOW }}.${{ env.commit_id }}-v${{ env.version }}
           path: emacs/Emacs.tar.xz

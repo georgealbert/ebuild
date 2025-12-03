@@ -191,10 +191,9 @@ jobs:
           # git log --oneline --since="1 week ago" --pretty=format:"%h %an(%ad): %s" --date=iso|head -10
 
           cd emacs
-          git log -10 --oneline --pretty=format:"%h %an(%ad): %s" --date=iso
 
           echo 'latest_log<<EOF' >> $GITHUB_ENV
-          echo $(git log -10 --oneline --pretty=format:"%h %an(%ad): %s" --date=iso) >> $GITHUB_ENV
+          git log -10 --oneline --pretty=format:"%h %an(%ad): %s" --date=iso >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
 
       - name: Publish Release
@@ -202,6 +201,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           # tag_name: ${{ env.build_version }}
+          tag_name: "20251203"
           draft: false
           prerelease: false
           body: >

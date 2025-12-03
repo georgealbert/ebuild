@@ -1,4 +1,4 @@
-name: MacOS Intel X86 Build for GNU Emacs with libmps on ${{ github.ref_name }}: ${{ github.event.head_commit.message }}
+name: MacOS Intel X86 Build for GNU Emacs with libmps
 
 on:
   workflow_dispatch:

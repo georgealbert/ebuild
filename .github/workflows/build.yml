@@ -177,7 +177,7 @@ jobs:
           ditto nextstep/Emacs.app Emacs.app
 
           # rm leim
-          find . -name 'leim' -delete
+          find . -name 'leim' -type d -exec rm -rf {} \
 
           echo version=$(Emacs.app/Contents/MacOS/Emacs --version | sed -nE 's/^GNU Emacs ([0-9.]+).*/\1/p') >> $GITHUB_ENV
           echo commit_id=$(git log -1 --pretty=format:"%h") >> $GITHUB_ENV

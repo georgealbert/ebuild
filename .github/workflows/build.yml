@@ -178,6 +178,7 @@ jobs:
 
           # rm leim
           # find . -name 'leim' -type d -exec rm -rf {} \;
+          rm -rf Emacs.app/Contents/Resources/lisp/leim
 
           echo version=$(Emacs.app/Contents/MacOS/Emacs --version | sed -nE 's/^GNU Emacs ([0-9.]+).*/\1/p') >> $GITHUB_ENV
           echo commit_id=$(git log -1 --pretty=format:"%h") >> $GITHUB_ENV

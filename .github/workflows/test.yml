@@ -14,12 +14,8 @@ jobs:
         run: |
           git clone -b 'master' --depth 10 https://github.com/emacs-mirror/emacs.git
 
-          build_version=$(TZ='Asia/Shanghai' date +'%Y-%m-%d')"."$(git log -1 --pretty=format:"%h")"-"$(Emacs.app/Contents/MacOS/Emacs --version | sed -nE 's/^GNU Emacs ([0-9.]+).*/\1/p')"-master"
-          echo build_version=${build_version} >> $GITHUB_ENV
-
       - name: Generate release note commit info
         run: |
-
           cd emacs
           echo 'GIT_LOGS<<EOF' >> $GITHUB_ENV
           git log -10 --oneline --pretty=format:"%h %an(%ad): %s" --date=iso) >> $GITHUB_ENV
@@ -29,7 +25,7 @@ jobs:
         id: publish_release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ env.build_version }}
+          tag_name: "20251205"
           draft: false
           prerelease: false
           body: >

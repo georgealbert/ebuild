@@ -1,4 +1,4 @@
-name: master build of MacOS Intel X86_64 GNU Emacs
+name: test master build
 
 on:
   workflow_dispatch:

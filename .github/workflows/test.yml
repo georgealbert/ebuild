@@ -18,7 +18,7 @@ jobs:
         run: |
           cd emacs
           echo 'GIT_LOGS<<EOF' >> $GITHUB_ENV
-          git log -10 --oneline --pretty=format:"%h %an(%ad): %s" --date=iso >> $GITHUB_ENV
+          git log -5 --oneline --format="%h %an(%ad): %s" --date=iso >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
 
       - name: Publish Release
@@ -33,7 +33,7 @@ jobs:
 
 
             ```
-            ${{ env.latest_log }}
+            ${{ env.GIT_LOGS }}
             ```
 
 

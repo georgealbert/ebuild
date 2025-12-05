@@ -1,0 +1,45 @@
+name: master build of MacOS Intel X86_64 GNU Emacs
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 1 1,16 * *'
+      timezone: 'Asia/Shanghai'
+
+jobs:
+  build:
+    runs-on: macos-15-intel
+    steps:
+      - name: Install Emacs
+        run: |
+          git clone -b 'master' --depth 10 https://github.com/emacs-mirror/emacs.git
+
+          build_version=$(TZ='Asia/Shanghai' date +'%Y-%m-%d')"."$(git log -1 --pretty=format:"%h")"-"$(Emacs.app/Contents/MacOS/Emacs --version | sed -nE 's/^GNU Emacs ([0-9.]+).*/\1/p')"-master"
+          echo build_version=${build_version} >> $GITHUB_ENV
+
+      - name: Generate release note commit info
+        run: |
+
+          cd emacs
+          echo 'GIT_LOGS<<EOF' >> $GITHUB_ENV
+          git log -10 --oneline --pretty=format:"%h %an(%ad): %s" --date=iso) >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+
+      - name: Publish Release
+        id: publish_release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.build_version }}
+          draft: false
+          prerelease: false
+          body: >
+            Static build branch master of macOS Intel X86 Emacs app.
+
+
+            ```
+            ${{ env.latest_log }}
+            ```
+
+
+            Built with:
+            [Github Workflow #${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})

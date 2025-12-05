@@ -2,9 +2,9 @@ name: test master build
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 1 1,16 * *'
-      timezone: 'Asia/Shanghai'
+  # schedule:
+  #   - cron: '0 1 1,16 * *'
+  #     timezone: 'Asia/Shanghai'
 
 jobs:
   build:
@@ -33,7 +33,9 @@ jobs:
 
 
             ```
+
             ${{ env.GIT_LOGS }}
+
             ```
 
 

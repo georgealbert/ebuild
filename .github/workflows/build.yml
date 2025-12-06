@@ -178,7 +178,6 @@ jobs:
                                       --with-toolkit-scroll-bars       \
                                       --with-sqlite3                   \
                                       --with-tree-sitter               \
-                                      --with-mps                       \
                                       --with-xml2                      \
                                       --with-zlib
           make -j4 && make install

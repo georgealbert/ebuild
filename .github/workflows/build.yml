@@ -1,4 +1,4 @@
-name: master build of MacOS Intel X86_64 GNU Emacs
+name: master build of MacOS Intel x86_64 GNU Emacs
 
 on:
   workflow_dispatch:
@@ -201,7 +201,7 @@ jobs:
         run: |
 
           cd emacs
-          echo latest_log=$(git log -10 --oneline --pretty=format:"%h %an(%ad): %s" --date=iso) >> $GITHUB_ENV
+          echo latest_log=$(git log -10 --oneline --pretty=format:"%h %an (%ad): %s" --date=iso) >> $GITHUB_ENV
 
       - name: Publish Release
         id: publish_release
@@ -211,7 +211,7 @@ jobs:
           draft: false
           prerelease: false
           body: >
-            Static build branch master of macOS Intel X86 Emacs app.
+            Static build branch master of macOS Intel x86_64 Emacs app.
 
 
             ```

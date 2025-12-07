@@ -1,4 +1,4 @@
-name: igc build of MacOS Intel X86 GNU Emacs
+name: feature/igc build of MacOS Intel x86_64 GNU Emacs
 
 on:
   workflow_dispatch:
@@ -110,6 +110,7 @@ jobs:
           tar -Jxf gnutls-3.8.11.tar.xz && cd gnutls-3.8.11
           ./configure --disable-shared --with-included-libtasn1 --without-p11-kit && make -j4
           sudo make install
+
       - name: Install Libtreesitter
         run: |
           curl -LO https://github.com/tree-sitter/tree-sitter/archive/refs/tags/v0.25.10.tar.gz
@@ -117,26 +118,38 @@ jobs:
           make -j4
           sudo make install
           sudo find /usr/local/lib -name 'libtree-sitter*.dylib' -delete
+
+      - name: Install SQLite3
+        run: |
+          curl -O https://www.sqlite.org/2025/sqlite-autoconf-3510100.tar.gz
+          tar -zxf sqlite-autoconf-3510100.tar.gz && cd sqlite-autoconf-3510100
+          ./configure --disable-shared && make -j4
+          sudo make install
+
       - name: Install GNU GZip
         run: |
           curl -O https://ftp.gnu.org/gnu/gzip/gzip-1.14.tar.gz
           tar -zxf gzip-1.14.tar.gz && cd gzip-1.14
           ./configure && make -j4
           sudo make install
+
       - name: Install GNU Texinfo
         run: |
           curl -O https://ftp.gnu.org/gnu/texinfo/texinfo-7.2.tar.gz
           tar -zxf texinfo-7.2.tar.gz && cd texinfo-7.2
           ./configure && make -j4
           sudo make install
+
       - name: Install Emacs
         run: |
           git clone -b 'feature/igc' --depth 1 https://github.com/emacs-mirror/emacs.git
           cd emacs && sed -i '' '/darwin/ s/lncurses/lncursesw/g' configure.ac
+
           curl -LO https://raw.githubusercontent.com/LuciusChen/.emacs.d/refs/heads/main/patches/emacs-31/ns-alpha-background.patch
           curl -LO https://raw.githubusercontent.com/LuciusChen/.emacs.d/refs/heads/main/patches/emacs-31/ns-mac-input-source.patch
           patch -p1 < ns-mac-input-source.patch
           patch -p1 < ns-alpha-background.patch
+
           ./autogen.sh && ./configure CFLAGS='-g0 -O2 -flto=thin'      \
                                       PKG_CONFIG='pkg-config -static'  \
                                       --disable-gc-mark-trace          \
@@ -150,43 +163,49 @@ jobs:
                                       --with-small-ja-dic              \
                                       --with-threads                   \
                                       --with-toolkit-scroll-bars       \
+                                      --with-sqlite3                   \
                                       --with-tree-sitter               \
                                       --with-mps                       \
                                       --with-xml2                      \
                                       --with-zlib
+
           make -j4 && make install
+
           ditto nextstep/Emacs.app Emacs.app
+
+          # rm leim
+          rm -rf Emacs.app/Contents/Resources/lisp/leim
+
           echo version=$(Emacs.app/Contents/MacOS/Emacs --version | sed -nE 's/^GNU Emacs ([0-9.]+).*/\1/p') >> $GITHUB_ENV
           echo commit_id=$(git log -1 --pretty=format:"%h") >> $GITHUB_ENV
           echo "NOW=$(TZ='Asia/Shanghai' date +'%Y-%m-%d')" >> $GITHUB_ENV
 
-          tar -Jcf Emacs.tar.xz Emacs.app
+          build_version=$(TZ='Asia/Shanghai' date +'%Y-%m-%d')"."$(git log -1 --pretty=format:"%h")"-"$(Emacs.app/Contents/MacOS/Emacs --version | sed -nE 's/^GNU Emacs ([0-9.]+).*/\1/p')"-igc"
+          echo build_version=${build_version} >> $GITHUB_ENV
 
-          emacs_version=$(TZ='Asia/Shanghai' date +'%Y-%m-%d')"."$(git log -1 --pretty=format:"%h")"-"$(Emacs.app/Contents/MacOS/Emacs --version | sed -nE 's/^GNU Emacs ([0-9.]+).*/\1/p')"-igc"
-          echo emacs_version=${emacs_version} >> $GITHUB_ENV
+          mv Emacs.app Emacs.${build_version}.app
+          tar -Jcf Emacs.${build_version}.tar.xz Emacs.${build_version}.app
 
-          mv Emacs.app Emacs.${emacs_version}.app
-          tar -Jcf Emacs.${emacs_version}.tar.xz Emacs.${emacs_version}.app
-
-          # git log --oneline --since="1 week ago" --pretty=format:"%h %an(%ad): %s" --date=iso|head -10
-          echo latest_log=$(git log -1 --oneline --pretty=format:"%h %an(%ad): %s" --date=iso) >> $GITHUB_ENV
+          echo latest_log=$(git log -1 --oneline --pretty=format:"%h %an (%ad): %s" --date=iso) >> $GITHUB_ENV
 
       - name: Publish Release
         id: publish_release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ env.emacs_version }}
+          tag_name: ${{ env.build_version }}
           draft: false
           prerelease: false
           body: >
-            Branch feature/igc static build of macOS Intel X86_64 Emacs app.
+            Branch feature/igc static build of macOS Intel x86_64 Emacs app.
+
 
             ```
             ${{ env.latest_log }}
             ```
 
-            Built with
+
+            Built with:
             [Github Workflow #${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
 
           files: |
-            emacs/Emacs.${{ env.emacs_version }}.tar.xz
+            emacs/Emacs.${{ env.build_version }}.tar.xz

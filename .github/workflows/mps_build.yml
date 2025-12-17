@@ -4,12 +4,16 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 1 1,16 * *'
-      timezone: 'Asia/Shanghai'
 
 jobs:
   build:
     runs-on: macos-15-intel
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
       - name: Uninstall Homebrew
         run: |
           curl -O https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh
@@ -145,10 +149,9 @@ jobs:
           git clone -b 'feature/igc' --depth 1 https://github.com/emacs-mirror/emacs.git
           cd emacs && sed -i '' '/darwin/ s/lncurses/lncursesw/g' configure.ac
 
-          curl -LO https://raw.githubusercontent.com/LuciusChen/.emacs.d/refs/heads/main/patches/emacs-31/ns-alpha-background.patch
-          curl -LO https://raw.githubusercontent.com/LuciusChen/.emacs.d/refs/heads/main/patches/emacs-31/ns-mac-input-source.patch
-          patch -p1 < ns-mac-input-source.patch
-          patch -p1 < ns-alpha-background.patch
+          patch -p1 < ../patches/emacs-31/ns-mac-input-source.patch.new
+          patch -p1 < ../patches/emacs-31/ns-alpha-background.patch
+          patch -p1 < ../patches/emacs-31/cursor-animation.patch
 
           ./autogen.sh && ./configure CFLAGS='-g0 -O2 -flto=thin'      \
                                       PKG_CONFIG='pkg-config -static'  \

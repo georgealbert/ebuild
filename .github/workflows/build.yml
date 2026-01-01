@@ -168,22 +168,22 @@ jobs:
           patch -p1 < ../patches/emacs-31/ns-alpha-background.patch
           patch -p1 < ../patches/emacs-31/cursor-animation.patch
 
-          ./autogen.sh && ./configure CFLAGS='-g0 -O2 -flto=thin'      \
-                                      PKG_CONFIG='pkg-config -static'  \
-                                      --disable-gc-mark-trace          \
-                                      --without-all                    \
-                                      --with-compress-install          \
-                                      --with-gmp                       \
-                                      --with-gnutls                    \
-                                      --with-modules                   \
-                                      --with-native-image-api          \
-                                      --with-ns                        \
-                                      --with-small-ja-dic              \
-                                      --with-threads                   \
-                                      --with-toolkit-scroll-bars       \
-                                      --with-sqlite3                   \
-                                      --with-tree-sitter               \
-                                      --with-xml2                      \
+          ./autogen.sh && ./configure CFLAGS='-O2 -g0 -flto=thin'   \
+                                      PKG_CONFIG='pkgconf -static'  \
+                                      --disable-gc-mark-trace       \
+                                      --without-all                 \
+                                      --with-compress-install       \
+                                      --with-gmp                    \
+                                      --with-gnutls                 \
+                                      --with-modules                \
+                                      --with-native-image-api       \
+                                      --with-ns                     \
+                                      --with-small-ja-dic           \
+                                      --with-threads                \
+                                      --with-toolkit-scroll-bars    \
+                                      --with-sqlite3                \
+                                      --with-tree-sitter            \
+                                      --with-xml2                   \
                                       --with-zlib
           make -j4 && make install
           ditto nextstep/Emacs.app Emacs.app

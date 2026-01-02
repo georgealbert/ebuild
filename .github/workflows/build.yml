@@ -206,7 +206,7 @@ jobs:
         run: |
 
           cd emacs
-          echo latest_log=$(git log -10 --oneline --pretty=format:"%h %an (%ad): %s" --date=iso) >> $GITHUB_ENV
+          echo latest_log=$(git log -1 --oneline --pretty=format:"%h %an (%ad): %s" --date=iso) >> $GITHUB_ENV
 
       - name: Publish Release
         id: publish_release

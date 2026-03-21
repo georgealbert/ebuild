@@ -168,7 +168,7 @@ jobs:
           patch -p1 < ../patches/emacs-31/ns-alpha-background.patch
           patch -p1 < ../patches/emacs-31/cursor-animation.patch
 
-          ./autogen.sh && ./configure CFLAGS='-O2 -g0 -flto=thin'   \
+          ./autogen.sh && ./configure CFLAGS='-O2 -g0 -flto'        \
                                       PKG_CONFIG='pkgconf -static'  \
                                       --disable-gc-mark-trace       \
                                       --without-all                 \

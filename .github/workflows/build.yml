@@ -138,7 +138,7 @@ jobs:
           tar -zxf sqlite-autoconf-3510300.tar.gz && cd sqlite-autoconf-3510300
           ./configure --disable-shared && make -j4
           sudo make install
-     - name: Install Emacs
+      - name: Install Emacs
         run: |
           git clone -b 'master' --depth 1 https://github.com/emacs-mirror/emacs.git
           cd emacs && sed -i '' '/darwin/ s/lncurses/lncursesw/g' configure.ac

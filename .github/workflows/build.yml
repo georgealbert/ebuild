@@ -39,6 +39,12 @@ jobs:
           tar -Jxf automake-1.18.tar.xz && cd automake-1.18
           ./configure && make -j4
           sudo make install
+      - name: Install GNU Libtool
+        run: |
+          curl -LO https://ftpmirror.gnu.org/gnu/libtool/libtool-2.5.4.tar.xz
+          tar -Jxf libtool-2.5.4.tar.xz && cd libtool-2.5.4
+          ./configure --disable-shared && make -j4
+          sudo make install
       - name: Install Pkgconf
         run: |
           curl -O https://distfiles.ariadne.space/pkgconf/pkgconf-2.5.1.tar.gz
@@ -46,23 +52,11 @@ jobs:
           ./configure --disable-shared && make -j4
           sudo make install
           sudo ln -s /usr/local/bin/pkgconf /usr/local/bin/pkg-config
-      - name: Install GNU Libtool
+      - name: Install GNU Texinfo
         run: |
-          curl -LO https://ftpmirror.gnu.org/gnu/libtool/libtool-2.5.4.tar.xz
-          tar -Jxf libtool-2.5.4.tar.xz && cd libtool-2.5.4
-          ./configure --disable-shared && make -j4
-          sudo make install
-      - name: Install GNU Libgmp
-        run: |
-          curl -O https://ftp.gnu.org/gnu/gmp/gmp-6.3.0.tar.gz
-          tar -zxf gmp-6.3.0.tar.gz && cd gmp-6.3.0
-          ./configure CFLAGS="-fPIC" --disable-assembly --disable-shared && make -j4
-          sudo make install
-      - name: Install Libnettle
-        run: |
-          curl -O https://ftp.gnu.org/gnu/nettle/nettle-3.10.2.tar.gz
-          tar -zxf nettle-3.10.2.tar.gz && cd nettle-3.10.2
-          ./configure --disable-shared && make -j4
+          curl -LO https://ftpmirror.gnu.org/gnu/texinfo/texinfo-7.3.tar.xz
+          tar -Jxf texinfo-7.3.tar.xz && cd texinfo-7.3
+          ./configure && make -j4
           sudo make install
       - name: Install GNU Libiconv
         run: |
@@ -101,6 +95,18 @@ jobs:
           tar -Jxf libxml2-2.15.2.tar.xz && cd libxml2-2.15.2
           ./configure --disable-shared && make -j4
           sudo make install
+      - name: Install GNU Libgmp
+        run: |
+          curl -LO https://ftpmirror.gnu.org/gnu/gmp/gmp-6.3.0.tar.xz
+          tar -Jxf gmp-6.3.0.tar.xz && cd gmp-6.3.0
+          ./configure CFLAGS="-fPIC" --disable-assembly --disable-shared && make -j4
+          sudo make install
+      - name: Install Libnettle
+        run: |
+          curl -LO https://ftpmirror.gnu.org/gnu/nettle/nettle-3.10.2.tar.gz
+          tar -zxf nettle-3.10.2.tar.gz && cd nettle-3.10.2
+          ./configure --disable-shared && make -j4
+          sudo make install
       - name: Install Libidn2
         run: |
           curl -LO https://ftpmirror.gnu.org/gnu/libidn/libidn2-2.3.8.tar.gz
@@ -128,17 +134,11 @@ jobs:
           sudo make install
       - name: Install SQLite3
         run: |
-          curl -O https://www.sqlite.org/2025/sqlite-autoconf-3510100.tar.gz
-          tar -zxf sqlite-autoconf-3510100.tar.gz && cd sqlite-autoconf-3510100
+          curl -O https://www.sqlite.org/2026/sqlite-autoconf-3510300.tar.gz
+          tar -zxf sqlite-autoconf-3510300.tar.gz && cd sqlite-autoconf-3510300
           ./configure --disable-shared && make -j4
           sudo make install
-      - name: Install GNU Texinfo
-        run: |
-          curl -O https://ftp.gnu.org/gnu/texinfo/texinfo-7.2.tar.gz
-          tar -zxf texinfo-7.2.tar.gz && cd texinfo-7.2
-          ./configure && make -j4
-          sudo make install
-      - name: Install Emacs
+     - name: Install Emacs
         run: |
           git clone -b 'master' --depth 1 https://github.com/emacs-mirror/emacs.git
           cd emacs && sed -i '' '/darwin/ s/lncurses/lncursesw/g' configure.ac

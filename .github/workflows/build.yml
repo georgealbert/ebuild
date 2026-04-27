@@ -144,7 +144,7 @@ jobs:
           cd emacs && sed -i '' '/darwin/ s/lncurses/lncursesw/g' configure.ac
 
           patch -p1 < ../patches/emacs-31/ns-mac-input-source.patch.new
-          patch -p1 < ../patches/emacs-31/ns-alpha-background.patch
+          # patch -p1 < ../patches/emacs-31/ns-alpha-background.patch
           patch -p1 < ../patches/emacs-31/cursor-animation.patch
 
           ./autogen.sh && ./configure CFLAGS='-O2 -g0 -flto'          \

@@ -145,7 +145,7 @@ jobs:
 
           patch -p1 < ../patches/emacs-32/ns-mac-input-source.patch
 
-          # patch -p1 < ../patches/emacs-31/ns-alpha-background.patch
+          patch -p1 < ../patches/emacs-31/ns-alpha-background.patch
 
           patch -p1 < ../patches/emacs-32/cursor-animation.patch
 

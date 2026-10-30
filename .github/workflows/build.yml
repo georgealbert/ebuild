@@ -121,14 +121,14 @@ jobs:
           sudo make install
       - name: Install Libtreesitter
         run: |
-          curl -fLO https://github.com/tree-sitter/tree-sitter/archive/refs/tags/v0.26.11.tar.gz --retry 3
-          tar -zxf v0.26.11.tar.gz && cd tree-sitter-0.26.11
+          curl -fLO https://github.com/tree-sitter/tree-sitter/archive/refs/tags/v0.27.0.tar.gz --retry 3
+          tar -zxf v0.27.0.tar.gz && cd tree-sitter-0.27.0
           make -j4
           sudo make install
           sudo find /usr/local/lib -name 'libtree-sitter*.dylib' -delete
       - name: Install GNU Gzip
         run: |
-          curl -fLO https://ftpmirror.gnu.org/gnu/gzip/gzip-1.14.tar.xz --retry 3
+          curl -fLO https://ftp.gnu.org/gnu/gzip/gzip-1.14.tar.xz --retry 3
           tar -Jxf gzip-1.14.tar.xz && cd gzip-1.14
           ./configure && make -j4
           sudo make install
@@ -151,6 +151,7 @@ jobs:
 
           ./autogen.sh && ./configure CFLAGS='-O2 -g0 -flto'          \
                                       PKG_CONFIG='pkgconf -static'    \
+                                      --disable-build-details         \
                                       --disable-gc-mark-trace         \
                                       --without-all                   \
                                       --with-compress-install         \

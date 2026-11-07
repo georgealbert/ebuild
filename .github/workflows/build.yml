@@ -35,8 +35,8 @@ jobs:
           sudo make install
       - name: Install GNU Automake
         run: |
-          curl -fLO https://ftpmirror.gnu.org/gnu/automake/automake-1.18.1.tar.xz --retry 3
-          tar -Jxf automake-1.18.1.tar.xz && cd automake-1.18.1
+          curl -fLO https://ftpmirror.gnu.org/gnu/automake/automake-1.19.tar.xz --retry 3
+          tar -Jxf automake-1.19.tar.xz && cd automake-1.19
           ./configure && make -j4
           sudo make install
       - name: Install GNU Libtool
@@ -91,8 +91,8 @@ jobs:
           sudo make install
       - name: Install Libxml2
         run: |
-          curl -fO https://download.gnome.org/sources/libxml2/2.15/libxml2-2.15.3.tar.xz --retry 3
-          tar -Jxf libxml2-2.15.3.tar.xz && cd libxml2-2.15.3
+          curl -fO https://download.gnome.org/sources/libxml2/2.15/libxml2-2.15.4.tar.xz --retry 3
+          tar -Jxf libxml2-2.15.4.tar.xz && cd libxml2-2.15.4
           ./configure --disable-shared && make -j4
           sudo make install
       - name: Install GNU Libgmp
@@ -134,8 +134,8 @@ jobs:
           sudo make install
       - name: Install SQLite3
         run: |
-          curl -O https://www.sqlite.org/2026/sqlite-autoconf-3510300.tar.gz
-          tar -zxf sqlite-autoconf-3510300.tar.gz && cd sqlite-autoconf-3510300
+          curl -O https://www.sqlite.org/2026/sqlite-autoconf-3540100.tar.gz
+          tar -zxf sqlite-autoconf-3540100.tar.gz && cd sqlite-autoconf-3540100
           ./configure --disable-shared && make -j4
           sudo make install
       - name: Install Emacs
